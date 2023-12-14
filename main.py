@@ -1,6 +1,16 @@
 import json
 import requests
 from datetime import datetime
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/', methods=['GET'])
+def trigger_function():
+    freeGames = getFreeGames()
+    sent_webhook(freeGames)
+
+    return 'Function triggered successfully!'
 
 
 def sent_webhook(freeGames):
@@ -77,15 +87,6 @@ def getFreeGames():
             except Exception as err:
                 print(err)
         return freeGames
-        # # 解析HTML內容
-        # soup = BeautifulSoup(response.text, "html.parser")
-
-        # # 尋找所有class為"css-1ukp34s"的元素
-        # elements = soup.find_all(class_="css-1ukp34s")
-
-        # # 輸出結果
-        # for element in elements:
-        #     print(element)
 
     else:
         print("請求失敗，狀態碼：" + str(response.status_code))
@@ -94,5 +95,4 @@ def getFreeGames():
 
 
 if __name__ == "__main__":
-    freeGames = getFreeGames()
-    sent_webhook(freeGames)
+    app.run()
