@@ -7,8 +7,8 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def trigger_function():
-    freeGames = getFreeGames()
-    sent_webhook(freeGames)
+    # freeGames = getFreeGames()
+    # sent_webhook(freeGames)
 
     return 'Function triggered successfully!'
 
@@ -87,12 +87,13 @@ def getFreeGames():
             except Exception as err:
                 print(err)
         return freeGames
-
     else:
         print("請求失敗，狀態碼：" + str(response.status_code))
-
+        return []
 
 
 
 if __name__ == "__main__":
+    freeGames = getFreeGames()
+    sent_webhook(freeGames)
     app.run('0.0.0.0')
